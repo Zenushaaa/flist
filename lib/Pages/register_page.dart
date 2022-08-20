@@ -25,7 +25,7 @@ class RegisterPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Hello!\nSignup to\nget started',
+                          'Hello!\nSignup to get started',
                           style: titleTextStyle.copyWith(fontSize: 24),
                         ),
                         const SizedBox(

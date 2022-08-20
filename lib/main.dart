@@ -1,4 +1,5 @@
 import 'package:flist/Pages/forgot_password_page.dart';
+import 'package:flist/Pages/home_page.dart';
 import 'package:flist/Pages/login_page.dart';
 import 'package:flist/Pages/register_page.dart';
 import 'package:flist/Pages/splash_page.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/forgotPassword': (context) => const ForgotPasssword(),
+        '/homepage': (context) => const Homepage(),
       },
     );
   }
