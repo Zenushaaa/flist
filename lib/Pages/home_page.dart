@@ -8,43 +8,39 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
+    Widget header() {
+      return Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Hello,\nAlex Espagaro",
+              style: titleTextStyle.copyWith(fontSize: 22),
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Container(
+                width: 68,
+                height: 68,
+                color: greyColor,
+                child: Image.asset(
+                  'assets/images/profile_1.jpg',
+                  width: 68,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    Widget popularMovie() {
+      return Column(
         children: [
-          const SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Hello,\nAlex Espagaro",
-                  style: titleTextStyle.copyWith(fontSize: 22),
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Container(
-                    width: 68,
-                    height: 68,
-                    color: greyColor,
-                    child: Image.asset(
-                      'assets/images/profile_1.jpg',
-                      width: 68,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          // NOTE: Poppular Movie
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 24,
@@ -57,10 +53,23 @@ class Homepage extends StatelessWidget {
                       fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 const Spacer(),
-                Text(
-                  'more',
-                  style: labelTextStyle.copyWith(fontSize: 12),
-                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onPressed: () {},
+                  child: Text(
+                    'View all',
+                    style: labelTextStyle.copyWith(
+                      fontSize: 12,
+                      color: blueColor,
+                    ),
+                  ),
+                )
               ],
             ),
           ),
@@ -83,9 +92,6 @@ class Homepage extends StatelessWidget {
                     title: 'Mulan',
                   ),
                 ),
-                const SizedBox(
-                  width: 20,
-                ),
                 Popularcard(
                   Movie(
                     id: 2,
@@ -93,9 +99,6 @@ class Homepage extends StatelessWidget {
                     rating: 8.4,
                     title: 'Black Widow',
                   ),
-                ),
-                const SizedBox(
-                  width: 20,
                 ),
                 Popularcard(
                   Movie(
@@ -105,9 +108,6 @@ class Homepage extends StatelessWidget {
                     title: 'Thor: Love and Thunder',
                   ),
                 ),
-                const SizedBox(
-                  width: 20,
-                ),
                 Popularcard(
                   Movie(
                     id: 4,
@@ -116,15 +116,16 @@ class Homepage extends StatelessWidget {
                     title: 'Avengers: End Game',
                   ),
                 ),
-                const SizedBox(
-                  width: 24,
-                ),
               ],
             ),
           ),
-          const SizedBox(
-            height: 30,
-          ),
+        ],
+      );
+    }
+
+    Widget popularSeries() {
+      return Column(
+        children: [
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 24,
@@ -137,10 +138,23 @@ class Homepage extends StatelessWidget {
                       fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 const Spacer(),
-                Text(
-                  'more',
-                  style: labelTextStyle.copyWith(fontSize: 12),
-                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onPressed: () {},
+                  child: Text(
+                    'View all',
+                    style: labelTextStyle.copyWith(
+                      fontSize: 12,
+                      color: blueColor,
+                    ),
+                  ),
+                )
               ],
             ),
           ),
@@ -157,14 +171,11 @@ class Homepage extends StatelessWidget {
                 ),
                 Popularcard(
                   Movie(
-                    id: 5,
+                    id: 7,
                     imageUrl: 'assets/images/poster_5.jpg',
                     rating: 8.4,
-                    title: 'The Walking Dead: Season 1',
+                    title: 'The Walking Dead',
                   ),
-                ),
-                const SizedBox(
-                  width: 20,
                 ),
                 Popularcard(
                   Movie(
@@ -174,9 +185,6 @@ class Homepage extends StatelessWidget {
                     title: 'Money Heist',
                   ),
                 ),
-                const SizedBox(
-                  width: 20,
-                ),
                 Popularcard(
                   Movie(
                     id: 7,
@@ -184,9 +192,6 @@ class Homepage extends StatelessWidget {
                     rating: 8.4,
                     title: 'Stranger Things: Season 4',
                   ),
-                ),
-                const SizedBox(
-                  width: 20,
                 ),
                 Popularcard(
                   Movie(
@@ -196,13 +201,43 @@ class Homepage extends StatelessWidget {
                     title: 'Game of Thrones',
                   ),
                 ),
-                const SizedBox(
-                  width: 24,
-                ),
               ],
             ),
           ),
         ],
+      );
+    }
+
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Image.asset(
+              'assets/images/vector.png',
+              width: MediaQuery.of(context).size.width,
+            ),
+            ListView(
+              children: [
+                const SizedBox(
+                  height: 24,
+                ),
+                header(),
+                const SizedBox(
+                  height: 24,
+                ),
+                // NOTE: Poppular Movie
+                popularMovie(),
+                const SizedBox(
+                  height: 24,
+                ),
+                popularSeries(),
+                const SizedBox(
+                  height: 24,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

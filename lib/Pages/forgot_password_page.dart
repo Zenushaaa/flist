@@ -16,7 +16,7 @@ class ForgotPasssword extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: Image.asset(
-                  'assets/images/vector_2.png',
+                  'assets/images/Vector_2.png',
                   width: 120,
                 ),
               ),
