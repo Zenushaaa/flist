@@ -1,11 +1,19 @@
 import 'package:flist/Pages/forgot_password_page.dart';
-import 'package:flist/Pages/home_page.dart';
 import 'package:flist/Pages/login_page.dart';
+import 'package:flist/Pages/popular_page.dart';
+import 'package:flist/Pages/popular_playlist_page.dart';
 import 'package:flist/Pages/register_page.dart';
 import 'package:flist/Pages/splash_page.dart';
+import 'package:flist/widgets/bottom_navigation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((value) => runApp(const MyApp()));
   runApp(const MyApp());
 }
 
@@ -22,7 +30,9 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/forgotPassword': (context) => const ForgotPasssword(),
-        '/homepage': (context) => const Homepage(),
+        '/main': (context) => const BottomNav(),
+        '/popular': (context) => const Popularpage(),
+        '/popularPlaylist': (context) => const PopularPlaylist(),
       },
     );
   }

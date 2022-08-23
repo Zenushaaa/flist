@@ -160,7 +160,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         child: ElevatedButton(
                           onPressed: () =>
-                              Navigator.pushNamed(context, '/homepage'),
+                              Navigator.pushNamed(context, '/main'),
                           style: ElevatedButton.styleFrom(
                             elevation: 4,
                             primary: blueColor,
@@ -210,7 +210,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 24,
+                        height: 32,
                       ),
                     ],
                   ),
