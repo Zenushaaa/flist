@@ -63,7 +63,7 @@ class PopularPlaylist extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
-                    children: [
+                    children: const [
                       PlaylistCard(),
                       PlaylistCard(),
                       PlaylistCard(),

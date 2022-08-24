@@ -1,10 +1,11 @@
 import 'package:flist/models/movie.dart';
+import 'package:flist/models/tv.dart';
 import 'package:flist/theme.dart';
 import 'package:flutter/material.dart';
 
-class Popularcard extends StatelessWidget {
-  final Movie movie;
-  const Popularcard(this.movie, {Key? key}) : super(key: key);
+class PopularCardTv extends StatelessWidget {
+  final Tv tv;
+  const PopularCardTv(this.tv, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +31,8 @@ class Popularcard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
-                movie.poster != null
-                    ? 'https://image.tmdb.org/t/p/w500${movie.poster}'
+                tv.poster != null
+                    ? 'https://image.tmdb.org/t/p/w500${tv.poster}'
                     : 'https://joadre.com/wp-content/uploads/2019/02/no-image.jpg',
                 width: 110,
                 height: 150,
@@ -43,7 +44,7 @@ class Popularcard extends StatelessWidget {
             height: 8,
           ),
           Text(
-            movie.title!,
+            tv.title!,
             style: titleTextStyle.copyWith(fontSize: 12),
             overflow: TextOverflow.ellipsis,
           ),
@@ -61,7 +62,7 @@ class Popularcard extends StatelessWidget {
               ),
               Text.rich(
                 TextSpan(
-                  text: '${movie.rating}',
+                  text: '${tv.rating}',
                   style: titleTextStyle.copyWith(
                     fontSize: 12,
                   ),

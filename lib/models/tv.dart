@@ -1,4 +1,4 @@
-class Movie {
+class Tv {
   int? id;
   String? backdrop;
   String? poster;
@@ -8,23 +8,21 @@ class Movie {
   num? rating;
   String? videoUrl;
 
-  Movie(
+  Tv(
       {this.id,
       this.backdrop,
       this.poster,
       this.title,
-      this.summary,
-      this.releaseDate,
       this.rating,
       this.videoUrl});
 
-  Movie.fromJson(json) {
+  Tv.fromJson(json) {
     id = json['id'];
     backdrop = json['backdrop_path'];
     poster = json['poster_path'];
-    title = json['title'];
+    title = json['original_name'];
     summary = json['overview'];
-    releaseDate = json['release_date'];
+    releaseDate = json['first_air_date'];
     rating = json['vote_average'];
   }
 }

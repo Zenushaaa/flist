@@ -1,7 +1,9 @@
 import 'package:flist/models/movie.dart';
 import 'package:flist/widgets/movie_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../provider/movie_provider.dart';
 import '../theme.dart';
 
 class Popularpage extends StatelessWidget {
@@ -10,6 +12,7 @@ class Popularpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final title = ModalRoute.of(context)!.settings.arguments as String;
+    final movieProvider = Provider.of<MovieProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -72,7 +75,7 @@ class Popularpage extends StatelessWidget {
                           MovieCard(
                             Movie(
                               id: 7,
-                              imageUrl: 'assets/images/poster_7.jpg',
+                              backdrop: 'assets/images/poster_7.jpg',
                               rating: 8.4,
                               title: 'Stranger Things: Season 4',
                             ),
@@ -80,7 +83,7 @@ class Popularpage extends StatelessWidget {
                           MovieCard(
                             Movie(
                               id: 6,
-                              imageUrl: 'assets/images/poster_6.jpg',
+                              backdrop: 'assets/images/poster_6.jpg',
                               rating: 8.4,
                               title: 'Money Heist',
                             ),
@@ -88,7 +91,7 @@ class Popularpage extends StatelessWidget {
                           MovieCard(
                             Movie(
                               id: 7,
-                              imageUrl: 'assets/images/poster_5.jpg',
+                              backdrop: 'assets/images/poster_5.jpg',
                               rating: 8.4,
                               title: 'The Walking Dead',
                             ),
@@ -104,7 +107,7 @@ class Popularpage extends StatelessWidget {
                           MovieCard(
                             Movie(
                               id: 7,
-                              imageUrl: 'assets/images/poster_7.jpg',
+                              backdrop: 'assets/images/poster_7.jpg',
                               rating: 8.4,
                               title: 'Stranger Things: Season 4',
                             ),
@@ -112,7 +115,7 @@ class Popularpage extends StatelessWidget {
                           MovieCard(
                             Movie(
                               id: 6,
-                              imageUrl: 'assets/images/poster_6.jpg',
+                              backdrop: 'assets/images/poster_6.jpg',
                               rating: 8.4,
                               title: 'Money Heist',
                             ),
@@ -120,7 +123,7 @@ class Popularpage extends StatelessWidget {
                           MovieCard(
                             Movie(
                               id: 7,
-                              imageUrl: 'assets/images/poster_5.jpg',
+                              backdrop: 'assets/images/poster_5.jpg',
                               rating: 8.4,
                               title: 'The Walking Dead',
                             ),
@@ -136,7 +139,7 @@ class Popularpage extends StatelessWidget {
                           MovieCard(
                             Movie(
                               id: 7,
-                              imageUrl: 'assets/images/poster_7.jpg',
+                              backdrop: 'assets/images/poster_7.jpg',
                               rating: 8.4,
                               title: 'Stranger Things: Season 4',
                             ),
@@ -144,7 +147,7 @@ class Popularpage extends StatelessWidget {
                           MovieCard(
                             Movie(
                               id: 6,
-                              imageUrl: 'assets/images/poster_6.jpg',
+                              backdrop: 'assets/images/poster_6.jpg',
                               rating: 8.4,
                               title: 'Money Heist',
                             ),
@@ -152,7 +155,7 @@ class Popularpage extends StatelessWidget {
                           MovieCard(
                             Movie(
                               id: 7,
-                              imageUrl: 'assets/images/poster_5.jpg',
+                              backdrop: 'assets/images/poster_5.jpg',
                               rating: 8.4,
                               title: 'The Walking Dead',
                             ),

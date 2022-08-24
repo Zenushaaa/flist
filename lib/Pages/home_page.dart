@@ -1,15 +1,24 @@
 import 'package:flist/models/movie.dart';
+import 'package:flist/provider/movie_provider.dart';
 import 'package:flist/theme.dart';
 import 'package:flist/widgets/playlist_card.dart';
 import 'package:flist/widgets/popular_card.dart';
+import 'package:flist/widgets/popular_card_shimmer.dart';
+import 'package:flist/widgets/popular_card_tv.dart';
 import 'package:flist/widgets/video_card.dart';
+import 'package:flist/widgets/video_card_shimmer.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/tv.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final movieProvider = Provider.of<MovieProvider>(context);
+
     Widget header() {
       return Stack(
         children: [
@@ -91,45 +100,33 @@ class Homepage extends StatelessWidget {
           ),
           SizedBox(
             height: 200,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                const SizedBox(
-                  width: 24,
-                ),
-                Popularcard(
-                  Movie(
-                    id: 1,
-                    imageUrl: 'assets/images/poster_1.jpg',
-                    rating: 8.4,
-                    title: 'Mulan',
-                  ),
-                ),
-                Popularcard(
-                  Movie(
-                    id: 2,
-                    imageUrl: 'assets/images/poster_2.jpg',
-                    rating: 8.4,
-                    title: 'Black Widow',
-                  ),
-                ),
-                Popularcard(
-                  Movie(
-                    id: 3,
-                    imageUrl: 'assets/images/poster_3.jpg',
-                    rating: 8.4,
-                    title: 'Thor: Love and Thunder',
-                  ),
-                ),
-                Popularcard(
-                  Movie(
-                    id: 4,
-                    imageUrl: 'assets/images/poster_4.jpg',
-                    rating: 8.4,
-                    title: 'Avengers: End Game',
-                  ),
-                ),
-              ],
+            child: FutureBuilder(
+              future: movieProvider.getPopularMovie(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<Movie> data = snapshot.data as List<Movie>;
+                  int index = 0;
+
+                  return ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: data.map((item) {
+                        index++;
+                        return Container(
+                            margin: EdgeInsets.only(left: index == 1 ? 24 : 0),
+                            child: Popularcard(item));
+                      }).toList());
+                } else {
+                  return ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: const [
+                      PopularCardShimmer(),
+                      PopularCardShimmer(),
+                      PopularCardShimmer(),
+                      PopularCardShimmer(),
+                    ],
+                  );
+                }
+              },
             ),
           ),
         ],
@@ -177,45 +174,33 @@ class Homepage extends StatelessWidget {
           ),
           SizedBox(
             height: 200,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                const SizedBox(
-                  width: 24,
-                ),
-                Popularcard(
-                  Movie(
-                    id: 7,
-                    imageUrl: 'assets/images/poster_5.jpg',
-                    rating: 8.4,
-                    title: 'The Walking Dead',
-                  ),
-                ),
-                Popularcard(
-                  Movie(
-                    id: 6,
-                    imageUrl: 'assets/images/poster_6.jpg',
-                    rating: 8.4,
-                    title: 'Money Heist',
-                  ),
-                ),
-                Popularcard(
-                  Movie(
-                    id: 7,
-                    imageUrl: 'assets/images/poster_7.jpg',
-                    rating: 8.4,
-                    title: 'Stranger Things: Season 4',
-                  ),
-                ),
-                Popularcard(
-                  Movie(
-                    id: 8,
-                    imageUrl: 'assets/images/poster_8.jpg',
-                    rating: 8.4,
-                    title: 'Game of Thrones',
-                  ),
-                ),
-              ],
+            child: FutureBuilder(
+              future: movieProvider.getPopularSeries(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<Tv> data = snapshot.data as List<Tv>;
+                  int index = 0;
+
+                  return ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: data.map((item) {
+                        index++;
+                        return Container(
+                            margin: EdgeInsets.only(left: index == 1 ? 24 : 0),
+                            child: PopularCardTv(item));
+                      }).toList());
+                } else {
+                  return ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: const [
+                      PopularCardShimmer(),
+                      PopularCardShimmer(),
+                      PopularCardShimmer(),
+                      PopularCardShimmer(),
+                    ],
+                  );
+                }
+              },
             ),
           ),
         ],
@@ -262,38 +247,34 @@ class Homepage extends StatelessWidget {
           ),
           SizedBox(
             height: 180,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                const SizedBox(
-                  width: 24,
-                ),
-                Videocard(
-                  Movie(
-                      id: 4,
-                      imageUrl: 'assets/images/poster_4.jpg',
-                      title: 'Avengers: End Game',
-                      videoUrl: 'https://www.youtube.com/watch?v=TcMBFSGVi1c'),
-                ),
-                Videocard(
-                  Movie(
-                      id: 7,
-                      imageUrl: 'assets/images/poster_7.jpg',
-                      title: 'Stranger Things: Season 4',
-                      videoUrl:
-                          'https://assets.mixkit.co/videos/preview/mixkit-a-girl-blowing-a-bubble-gum-at-an-amusement-park-1226-large.mp4'),
-                ),
-                Videocard(
-                  Movie(
-                      id: 6,
-                      imageUrl: 'assets/images/poster_6.jpg',
-                      title: 'Money Heist',
-                      videoUrl:
-                          'https://assets.mixkit.co/videos/preview/mixkit-a-girl-blowing-a-bubble-gum-at-an-amusement-park-1226-large.mp4'),
-                ),
-              ],
+            child: FutureBuilder(
+              future: movieProvider.getComingSoonMovie(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<Movie> data = snapshot.data as List<Movie>;
+                  int index = 0;
+                  return ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: data.map((item) {
+                        index++;
+                        return Container(
+                          margin: EdgeInsets.only(left: index == 1 ? 24 : 0),
+                          child: Videocard(item),
+                        );
+                      }).toList());
+                } else {
+                  return ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: const [
+                      VideoCardShimmer(),
+                      VideoCardShimmer(),
+                      VideoCardShimmer()
+                    ],
+                  );
+                }
+              },
             ),
-          )
+          ),
         ],
       );
     }
@@ -308,7 +289,7 @@ class Homepage extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  'Popular Playlist',
+                  'Recommeded Playlist',
                   style: labelTextStyle.copyWith(
                       fontSize: 18, fontWeight: FontWeight.w600),
                 ),

@@ -1,5 +1,6 @@
 import 'package:flist/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/movie.dart';
@@ -41,8 +42,10 @@ class Videocard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               child: Stack(
                 children: [
-                  Image.asset(
-                    movie.imageUrl!,
+                  Image.network(
+                    movie.backdrop != null
+                        ? 'https://image.tmdb.org/t/p/w780${movie.backdrop}'
+                        : 'https://joadre.com/wp-content/uploads/2019/02/no-image.jpg',
                     width: 268,
                     height: 129,
                     fit: BoxFit.cover,
@@ -82,7 +85,8 @@ class Videocard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    'April 2023',
+                    DateFormat('MMM d, yyyy')
+                        .format(DateTime.parse(movie.releaseDate!)),
                     style: subTitleTextStyle.copyWith(fontSize: 10),
                     overflow: TextOverflow.ellipsis,
                   ),
