@@ -1,174 +1,137 @@
 import 'package:flist/models/movie.dart';
-import 'package:flist/widgets/movie_card.dart';
+import 'package:flist/widgets/popular_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/tv.dart';
 import '../provider/movie_provider.dart';
 import '../theme.dart';
+import '../widgets/popular_card_tv.dart';
 
-class Popularpage extends StatelessWidget {
+class Popularpage extends StatefulWidget {
   const Popularpage({Key? key}) : super(key: key);
 
   @override
+  State<Popularpage> createState() => _PopularpageState();
+}
+
+class _PopularpageState extends State<Popularpage> {
+  final ScrollController _scrollController = ScrollController();
+  String? title;
+  int pageCount = 1;
+
+  @override
+  void initState() {
+    // Future.delayed(Duration.zero).then((_) {
+    //   title = ModalRoute.of(context)!.settings.arguments as String;
+
+    // });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        // print('New data');
+        if (title == 'Movie') {
+          pageCount++;
+          Provider.of<MovieProvider>(context, listen: false)
+              .getPopularMovie(pageCount);
+          setState(() {});
+        } else {
+          pageCount++;
+          Provider.of<MovieProvider>(context, listen: false)
+              .getPopularSeries(pageCount);
+          setState(() {});
+        }
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final title = ModalRoute.of(context)!.settings.arguments as String;
+    title = ModalRoute.of(context)!.settings.arguments as String;
     final movieProvider = Provider.of<MovieProvider>(context);
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Image.asset(
-                    'assets/images/Vector_2.png',
-                    width: 100,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Image.asset(
-                    'assets/images/Vector_3.png',
-                    width: 100,
-                  ),
-                )
-              ],
+      body: NestedScrollView(
+        floatHeaderSlivers: true,
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+            floating: true,
+            snap: true,
+            title: Text('Popular $title'),
+            centerTitle: true,
+            backgroundColor: blueColor,
+            leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.chevron_left_rounded),
             ),
-            ListView(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 24,
-                    left: 24,
-                    right: 24,
-                    bottom: 24,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: () => Navigator.pop(context),
-                        child: Image.asset(
-                          'assets/images/btBack.png',
-                          width: 32,
+          ),
+        ],
+        body: Stack(
+          children: [
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Image.asset(
+                'assets/images/Vector_3.png',
+                width: 100,
+              ),
+            ),
+            FutureBuilder(
+              future: title == 'Movie'
+                  ? movieProvider.getPopularMovie(pageCount)
+                  : movieProvider.getPopularSeries(pageCount),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (title == 'Movie') {
+                    List<Movie> data = snapshot.data as List<Movie>;
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: GridView.builder(
+                        controller: _scrollController,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: 3 / 6,
                         ),
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          return Popularcard(data[index]);
+                        },
                       ),
-                      Text(
-                        'Popular $title',
-                        style: titleTextStyle.copyWith(fontSize: 18),
+                    );
+                  } else {
+                    List<Tv> data = snapshot.data as List<Tv>;
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: GridView.builder(
+                        controller: _scrollController,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: 3 / 6,
+                        ),
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          return PopularCardTv(data[index]);
+                        },
                       ),
-                      const SizedBox(
-                        width: 32,
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          MovieCard(
-                            Movie(
-                              id: 7,
-                              backdrop: 'assets/images/poster_7.jpg',
-                              rating: 8.4,
-                              title: 'Stranger Things: Season 4',
-                            ),
-                          ),
-                          MovieCard(
-                            Movie(
-                              id: 6,
-                              backdrop: 'assets/images/poster_6.jpg',
-                              rating: 8.4,
-                              title: 'Money Heist',
-                            ),
-                          ),
-                          MovieCard(
-                            Movie(
-                              id: 7,
-                              backdrop: 'assets/images/poster_5.jpg',
-                              rating: 8.4,
-                              title: 'The Walking Dead',
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          MovieCard(
-                            Movie(
-                              id: 7,
-                              backdrop: 'assets/images/poster_7.jpg',
-                              rating: 8.4,
-                              title: 'Stranger Things: Season 4',
-                            ),
-                          ),
-                          MovieCard(
-                            Movie(
-                              id: 6,
-                              backdrop: 'assets/images/poster_6.jpg',
-                              rating: 8.4,
-                              title: 'Money Heist',
-                            ),
-                          ),
-                          MovieCard(
-                            Movie(
-                              id: 7,
-                              backdrop: 'assets/images/poster_5.jpg',
-                              rating: 8.4,
-                              title: 'The Walking Dead',
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          MovieCard(
-                            Movie(
-                              id: 7,
-                              backdrop: 'assets/images/poster_7.jpg',
-                              rating: 8.4,
-                              title: 'Stranger Things: Season 4',
-                            ),
-                          ),
-                          MovieCard(
-                            Movie(
-                              id: 6,
-                              backdrop: 'assets/images/poster_6.jpg',
-                              rating: 8.4,
-                              title: 'Money Heist',
-                            ),
-                          ),
-                          MovieCard(
-                            Movie(
-                              id: 7,
-                              backdrop: 'assets/images/poster_5.jpg',
-                              rating: 8.4,
-                              title: 'The Walking Dead',
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                    );
+                  }
+                } else {
+                  return Container();
+                }
+              },
             ),
           ],
         ),

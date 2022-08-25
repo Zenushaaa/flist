@@ -101,7 +101,7 @@ class Homepage extends StatelessWidget {
           SizedBox(
             height: 200,
             child: FutureBuilder(
-              future: movieProvider.getPopularMovie(),
+              future: movieProvider.getPopularMovie(1),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   List<Movie> data = snapshot.data as List<Movie>;
@@ -112,17 +112,27 @@ class Homepage extends StatelessWidget {
                       children: data.map((item) {
                         index++;
                         return Container(
-                            margin: EdgeInsets.only(left: index == 1 ? 24 : 0),
-                            child: Popularcard(item));
+                          margin: EdgeInsets.only(left: index == 1 ? 24 : 0),
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 24),
+                            child: Popularcard(item),
+                          ),
+                        );
                       }).toList());
                 } else {
                   return ListView(
                     scrollDirection: Axis.horizontal,
                     children: const [
+                      SizedBox(
+                        width: 24,
+                      ),
                       PopularCardShimmer(),
                       PopularCardShimmer(),
                       PopularCardShimmer(),
                       PopularCardShimmer(),
+                      SizedBox(
+                        width: 24,
+                      ),
                     ],
                   );
                 }
@@ -175,7 +185,7 @@ class Homepage extends StatelessWidget {
           SizedBox(
             height: 200,
             child: FutureBuilder(
-              future: movieProvider.getPopularSeries(),
+              future: movieProvider.getPopularSeries(1),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   List<Tv> data = snapshot.data as List<Tv>;
@@ -186,8 +196,12 @@ class Homepage extends StatelessWidget {
                       children: data.map((item) {
                         index++;
                         return Container(
-                            margin: EdgeInsets.only(left: index == 1 ? 24 : 0),
-                            child: PopularCardTv(item));
+                          margin: EdgeInsets.only(left: index == 1 ? 24 : 0),
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 24),
+                            child: PopularCardTv(item),
+                          ),
+                        );
                       }).toList());
                 } else {
                   return ListView(

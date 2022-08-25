@@ -27,8 +27,10 @@ class MovieCard extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                movie.backdrop!,
+              child: Image.network(
+                movie.poster != null
+                    ? 'https://image.tmdb.org/t/p/w500${movie.poster}'
+                    : 'https://joadre.com/wp-content/uploads/2019/02/no-image.jpg',
                 width: 95,
                 height: 120,
                 fit: BoxFit.fill,

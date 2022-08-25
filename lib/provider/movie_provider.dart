@@ -12,6 +12,12 @@ class MovieProvider extends ChangeNotifier {
   var baseUrl = Service.baseUrl;
   var apiKey = Service.apiKey;
 
+  final List<Movie> _movie = [];
+  final List<Tv> _tv = [];
+
+  List<Movie> get movie => _movie;
+  List<Tv> get series => _tv;
+
   getComingSoonMovie() async {
     var minDate = DateTime.now().toString().substring(0, 10);
     var maxDate = DateTime.now()
@@ -33,31 +39,35 @@ class MovieProvider extends ChangeNotifier {
     }
   }
 
-  getPopularMovie() async {
-    Uri url =
-        Uri.parse('$baseUrl/movie/popular?api_key=$apiKey&language=en-US');
+  getPopularMovie(int page) async {
+    Uri url = Uri.parse(
+        '$baseUrl/movie/popular?api_key=$apiKey&language=en-US&page=$page');
 
     var result = await http.get(url);
 
     if (result.statusCode == 200) {
       List data = jsonDecode(result.body)['results'];
-      List<Movie> popularMovies =
-          data.map((item) => Movie.fromJson(item)).toList();
-      return popularMovies;
+      for (var item in data) {
+        _movie.add(Movie.fromJson(item));
+      }
+      return _movie;
     } else {
       return <Movie>[];
     }
   }
 
-  getPopularSeries() async {
-    Uri url = Uri.parse('$baseUrl/tv/popular?api_key=$apiKey&language=en-US');
+  getPopularSeries(int page) async {
+    Uri url = Uri.parse(
+        '$baseUrl/tv/popular?api_key=$apiKey&language=en-US&page=$page');
 
     var result = await http.get(url);
 
     if (result.statusCode == 200) {
       List data = jsonDecode(result.body)['results'];
-      List<Tv> popularSeries = data.map((item) => Tv.fromJson(item)).toList();
-      return popularSeries;
+      for (var item in data) {
+        _tv.add(Tv.fromJson(item));
+      }
+      return _tv;
     } else {
       return <Tv>[];
     }

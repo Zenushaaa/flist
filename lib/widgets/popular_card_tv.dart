@@ -1,4 +1,3 @@
-import 'package:flist/models/movie.dart';
 import 'package:flist/models/tv.dart';
 import 'package:flist/theme.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +8,8 @@ class PopularCardTv extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 110,
-      margin: const EdgeInsets.only(
-        right: 24,
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

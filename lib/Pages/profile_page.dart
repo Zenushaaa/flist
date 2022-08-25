@@ -46,74 +46,74 @@ class Profilepage extends StatelessWidget {
               style: subTitleTextStyle.copyWith(
                   fontSize: 14, fontWeight: FontWeight.w300),
             ),
-            const SizedBox(
-              height: 16,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 60),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        '6',
-                        style: titleTextStyle.copyWith(
-                          fontSize: 14,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        'Playlist',
-                        style: subTitleTextStyle.copyWith(
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        '12',
-                        style: titleTextStyle.copyWith(
-                          fontSize: 14,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        'Followers',
-                        style: subTitleTextStyle.copyWith(
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        '12',
-                        style: titleTextStyle.copyWith(
-                          fontSize: 14,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        'Following',
-                        style: subTitleTextStyle.copyWith(
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
+            // const SizedBox(
+            //   height: 16,
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 60),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       Column(
+            //         children: [
+            //           Text(
+            //             '6',
+            //             style: titleTextStyle.copyWith(
+            //               fontSize: 14,
+            //             ),
+            //           ),
+            //           const SizedBox(
+            //             height: 4,
+            //           ),
+            //           Text(
+            //             'Playlist',
+            //             style: subTitleTextStyle.copyWith(
+            //               fontSize: 12,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //       Column(
+            //         children: [
+            //           Text(
+            //             '12',
+            //             style: titleTextStyle.copyWith(
+            //               fontSize: 14,
+            //             ),
+            //           ),
+            //           const SizedBox(
+            //             height: 4,
+            //           ),
+            //           Text(
+            //             'Followers',
+            //             style: subTitleTextStyle.copyWith(
+            //               fontSize: 12,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //       Column(
+            //         children: [
+            //           Text(
+            //             '12',
+            //             style: titleTextStyle.copyWith(
+            //               fontSize: 14,
+            //             ),
+            //           ),
+            //           const SizedBox(
+            //             height: 4,
+            //           ),
+            //           Text(
+            //             'Following',
+            //             style: subTitleTextStyle.copyWith(
+            //               fontSize: 12,
+            //             ),
+            //           ),
+            //         ],
+            //       )
+            //     ],
+            //   ),
+            // ),
             const SizedBox(
               height: 24,
             ),
