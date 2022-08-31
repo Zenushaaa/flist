@@ -3,10 +3,8 @@ import 'package:flist/widgets/popular_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/tv.dart';
 import '../provider/movie_provider.dart';
 import '../theme.dart';
-import '../widgets/popular_card_tv.dart';
 
 class Popularpage extends StatefulWidget {
   const Popularpage({Key? key}) : super(key: key);
@@ -20,26 +18,54 @@ class _PopularpageState extends State<Popularpage> {
   String? title;
   int pageCount = 1;
 
+  List<Movie> dataMovie = [];
+  // ignore: prefer_typing_uninitialized_variables
+  var movieProvider;
+
   @override
   void initState() {
-    // Future.delayed(Duration.zero).then((_) {
-    //   title = ModalRoute.of(context)!.settings.arguments as String;
-
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      movieProvider = Provider.of<MovieProvider>(context, listen: false);
+      title = ModalRoute.of(context)!.settings.arguments as String;
+      if (title == 'Movie') {
+        movieProvider.getPopularMovie(pageCount).then((value) {
+          setState(() {
+            for (var data in value) {
+              dataMovie.add(data);
+            }
+          });
+        });
+      } else {
+        movieProvider.getPopularSeries(pageCount).then((value) {
+          setState(() {
+            for (var data in value) {
+              dataMovie.add(data);
+            }
+          });
+        });
+      }
+    });
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        // print('New data');
         if (title == 'Movie') {
           pageCount++;
-          Provider.of<MovieProvider>(context, listen: false)
-              .getPopularMovie(pageCount);
-          setState(() {});
+          movieProvider.getPopularMovie(pageCount).then((value) {
+            setState(() {
+              for (var data in value) {
+                dataMovie.add(data);
+              }
+            });
+          });
         } else {
           pageCount++;
-          Provider.of<MovieProvider>(context, listen: false)
-              .getPopularSeries(pageCount);
-          setState(() {});
+          movieProvider.getPopularSeries(pageCount).then((value) {
+            setState(() {
+              for (var data in value) {
+                dataMovie.add(data);
+              }
+            });
+          });
         }
       }
     });
@@ -54,8 +80,6 @@ class _PopularpageState extends State<Popularpage> {
 
   @override
   Widget build(BuildContext context) {
-    title = ModalRoute.of(context)!.settings.arguments as String;
-    final movieProvider = Provider.of<MovieProvider>(context);
     return Scaffold(
       body: NestedScrollView(
         floatHeaderSlivers: true,
@@ -81,58 +105,22 @@ class _PopularpageState extends State<Popularpage> {
                 width: 100,
               ),
             ),
-            FutureBuilder(
-              future: title == 'Movie'
-                  ? movieProvider.getPopularMovie(pageCount)
-                  : movieProvider.getPopularSeries(pageCount),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  if (title == 'Movie') {
-                    List<Movie> data = snapshot.data as List<Movie>;
-
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: GridView.builder(
-                        controller: _scrollController,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 20,
-                          mainAxisSpacing: 10,
-                          childAspectRatio: 3 / 6,
-                        ),
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          return Popularcard(data[index]);
-                        },
-                      ),
-                    );
-                  } else {
-                    List<Tv> data = snapshot.data as List<Tv>;
-
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: GridView.builder(
-                        controller: _scrollController,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 20,
-                          mainAxisSpacing: 10,
-                          childAspectRatio: 3 / 6,
-                        ),
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          return PopularCardTv(data[index]);
-                        },
-                      ),
-                    );
-                  }
-                } else {
-                  return Container();
-                }
-              },
-            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: GridView.builder(
+                controller: _scrollController,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 3 / 6,
+                ),
+                itemCount: dataMovie.length,
+                itemBuilder: (context, index) {
+                  return Popularcard(dataMovie[index]);
+                },
+              ),
+            )
           ],
         ),
       ),

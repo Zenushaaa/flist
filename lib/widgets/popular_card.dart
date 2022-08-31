@@ -11,17 +11,21 @@ class Popularcard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const DetailPage(),
-          )),
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailPage(movie),
+        ),
+      ),
       child: SizedBox(
         width: 110,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
+              width: 110,
+              height: 150,
               decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.09),
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../Pages/detail_page.dart';
 import '../models/movie.dart';
 
 class Videocard extends StatelessWidget {
@@ -93,7 +94,12 @@ class Videocard extends StatelessWidget {
                 ],
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailPage(movie),
+                  ),
+                ),
                 icon: const Icon(Icons.chevron_right_outlined),
               )
             ],

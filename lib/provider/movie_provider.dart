@@ -6,17 +6,11 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 
-import '../models/tv.dart';
+import '../models/cast.dart';
 
 class MovieProvider extends ChangeNotifier {
   var baseUrl = Service.baseUrl;
   var apiKey = Service.apiKey;
-
-  final List<Movie> _movie = [];
-  final List<Tv> _tv = [];
-
-  List<Movie> get movie => _movie;
-  List<Tv> get series => _tv;
 
   getComingSoonMovie() async {
     var minDate = DateTime.now().toString().substring(0, 10);
@@ -47,10 +41,8 @@ class MovieProvider extends ChangeNotifier {
 
     if (result.statusCode == 200) {
       List data = jsonDecode(result.body)['results'];
-      for (var item in data) {
-        _movie.add(Movie.fromJson(item));
-      }
-      return _movie;
+      List<Movie> movies = data.map((item) => Movie.fromJson(item)).toList();
+      return movies;
     } else {
       return <Movie>[];
     }
@@ -64,12 +56,52 @@ class MovieProvider extends ChangeNotifier {
 
     if (result.statusCode == 200) {
       List data = jsonDecode(result.body)['results'];
-      for (var item in data) {
-        _tv.add(Tv.fromJson(item));
-      }
-      return _tv;
+      List<Movie> tv = data.map((item) => Movie.fromJson(item)).toList();
+      return tv;
     } else {
-      return <Tv>[];
+      return <Movie>[];
+    }
+  }
+
+  getDetails(int? id, String? type) async {
+    Uri url = Uri.parse(
+        '$baseUrl/$type/$id?api_key=$apiKey&language=en-US&append_to_response=videos');
+
+    var result = await http.get(url);
+    if (result.statusCode == 200) {
+      Movie data = Movie.fromJsonMap(jsonDecode(result.body));
+      return data;
+    } else {
+      return [];
+    }
+  }
+
+  getCast(int? id, String? type) async {
+    Uri url =
+        Uri.parse('$baseUrl/$type/$id/credits?api_key=$apiKey&language=en-US');
+
+    var result = await http.get(url);
+    if (result.statusCode == 200) {
+      List data = jsonDecode(result.body)['cast'];
+      List<Cast> cast = data.map((item) => Cast.fromJson(item)).toList();
+      return cast;
+    } else {
+      return <Cast>[];
+    }
+  }
+
+  getSimiliar(int? id, String? type) async {
+    Uri url = Uri.parse(
+        '$baseUrl/$type/$id/similar?api_key=$apiKey&language=en-US&page=1');
+
+    var result = await http.get(url);
+    if (result.statusCode == 200) {
+      List data = jsonDecode(result.body)['results'];
+      List<Movie> movieSimiliar =
+          data.map((item) => Movie.fromJson(item)).toList();
+      return movieSimiliar;
+    } else {
+      return <Movie>[];
     }
   }
 }

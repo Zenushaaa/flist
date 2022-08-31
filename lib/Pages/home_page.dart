@@ -4,13 +4,10 @@ import 'package:flist/theme.dart';
 import 'package:flist/widgets/playlist_card.dart';
 import 'package:flist/widgets/popular_card.dart';
 import 'package:flist/widgets/popular_card_shimmer.dart';
-import 'package:flist/widgets/popular_card_tv.dart';
 import 'package:flist/widgets/video_card.dart';
 import 'package:flist/widgets/video_card_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../models/tv.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -106,7 +103,6 @@ class Homepage extends StatelessWidget {
                 if (snapshot.hasData) {
                   List<Movie> data = snapshot.data as List<Movie>;
                   int index = 0;
-
                   return ListView(
                       scrollDirection: Axis.horizontal,
                       children: data.map((item) {
@@ -188,7 +184,7 @@ class Homepage extends StatelessWidget {
               future: movieProvider.getPopularSeries(1),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  List<Tv> data = snapshot.data as List<Tv>;
+                  List<Movie> data = snapshot.data as List<Movie>;
                   int index = 0;
 
                   return ListView(
@@ -199,7 +195,7 @@ class Homepage extends StatelessWidget {
                           margin: EdgeInsets.only(left: index == 1 ? 24 : 0),
                           child: Container(
                             margin: const EdgeInsets.only(right: 24),
-                            child: PopularCardTv(item),
+                            child: Popularcard(item),
                           ),
                         );
                       }).toList());
@@ -207,6 +203,9 @@ class Homepage extends StatelessWidget {
                   return ListView(
                     scrollDirection: Axis.horizontal,
                     children: const [
+                      SizedBox(
+                        width: 24,
+                      ),
                       PopularCardShimmer(),
                       PopularCardShimmer(),
                       PopularCardShimmer(),
@@ -280,6 +279,9 @@ class Homepage extends StatelessWidget {
                   return ListView(
                     scrollDirection: Axis.horizontal,
                     children: const [
+                      SizedBox(
+                        width: 24,
+                      ),
                       VideoCardShimmer(),
                       VideoCardShimmer(),
                       VideoCardShimmer()

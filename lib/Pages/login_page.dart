@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
             ),
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.only(top: 32),
+                padding: const EdgeInsets.only(top: 48),
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: Image.asset(
@@ -32,7 +32,7 @@ class LoginPage extends StatelessWidget {
             ListView(
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height - 380,
+                  height: MediaQuery.of(context).size.height - 400,
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
