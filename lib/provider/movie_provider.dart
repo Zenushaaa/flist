@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flist/configuration/services.dart';
+import 'package:flist/models/genre.dart';
 import 'package:flist/models/movie.dart';
 import 'package:flutter/material.dart';
 
@@ -102,6 +103,21 @@ class MovieProvider extends ChangeNotifier {
       return movieSimiliar;
     } else {
       return <Movie>[];
+    }
+  }
+
+  Future<List<Genre>> getGenre() async {
+    List<Genre> genre = [];
+    Uri url = Uri.parse('$baseUrl/genre/movie/list?api_key=$apiKey');
+    var result = await http.get(url);
+    if (result.statusCode == 200) {
+      var data = jsonDecode(result.body)['genres'];
+      for (var element in data) {
+        genre.add(Genre.fromJsonMap(element));
+      }
+      return genre;
+    } else {
+      return <Genre>[];
     }
   }
 }
